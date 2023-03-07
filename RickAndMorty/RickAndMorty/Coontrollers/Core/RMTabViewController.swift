@@ -7,7 +7,8 @@
 
 import UIKit
 
-/// Agregamos el final para que no se pueda subclasificar ni hacer herencia
+// Agregamos el final para que no se pueda subclasificar ni hacer herencia
+/// Controlador para albergar pestañas y controladores de pestaña raiz
 final class RMTabViewController: UITabBarController {
 
     override func viewDidLoad() {
@@ -35,7 +36,7 @@ final class RMTabViewController: UITabBarController {
         let navSetting = UINavigationController(rootViewController: settingsVC)
         
         ///Agregar imágenes a los Items del Navigation y que se visualicen los items en la vista desde el inicio
-        navCharacter.tabBarItem = UITabBarItem(title: "Características",
+        navCharacter.tabBarItem = UITabBarItem(title: "Personajes",
                                                image: UIImage(systemName: "person"),
                                                tag: 1)
         navLocation.tabBarItem = UITabBarItem(title: "Localización",

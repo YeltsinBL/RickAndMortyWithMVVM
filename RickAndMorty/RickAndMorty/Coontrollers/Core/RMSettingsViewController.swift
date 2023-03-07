@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// Agregamos el final para que no se pueda subclasificar ni hacer herencia
+/// Controlador para mostrar varias opciones y configuraciones de la aplicación
 final class RMSettingsViewController: UIViewController {
 
     override func viewDidLoad() {

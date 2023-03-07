@@ -7,14 +7,14 @@
 
 import UIKit
 
-/// Agregamos el final para que no se pueda subclasificar ni hacer herencia
+/// Controlador para mostrar y buscar Ubicaciones
 final class RMLocationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground //el color del systema: oscuro o claro
-        title = "Localización"
+        title = "Ubicaciones"
     }
     
 }

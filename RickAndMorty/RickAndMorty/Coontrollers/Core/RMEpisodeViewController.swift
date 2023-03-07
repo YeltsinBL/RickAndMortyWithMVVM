@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// Agregamos el final para que no se pueda subclasificar ni hacer herencia
+/// Controlador para mostrar y buscar Episodios
 final class RMEpisodeViewController: UIViewController {
 
     override func viewDidLoad() {
