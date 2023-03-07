@@ -16,7 +16,7 @@ final class RMRequest {
     /// Partes Finales - Listado
     private let endPoint: RMEndpoint
     /// Ruta de Componentes - Buscar por Id
-    private let pathComponents: Set<String>
+    private let pathComponents: [String]
     /// Parámetros de consultas
     private let queryParameters: [URLQueryItem]
     
@@ -65,7 +65,7 @@ final class RMRequest {
     ///   - pathComponents: Colección de componentes de Ruta
     ///   - queryParameters: Colección de parametros de consulta
     public init(endPoint: RMEndpoint,
-                pathComponents: Set<String> = [],
+                pathComponents: [String] = [],
                 queryParameters: [URLQueryItem] = []) {
         self.endPoint = endPoint
         self.pathComponents = pathComponents
@@ -74,3 +74,7 @@ final class RMRequest {
 
 }
 
+//crear solicitudes mas simples
+extension RMRequest {
+    static let listCharactersRequest = RMRequest(endPoint: .character)
+}
