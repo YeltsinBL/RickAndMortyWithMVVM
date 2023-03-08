@@ -18,13 +18,12 @@ final class RMCharacterViewController: UIViewController {
         view.backgroundColor = .systemBackground //el color del systema: oscuro o claro
         title = "Personajes"
         
-        view.addSubview(characterListView)
         setUpConstrains()
         
     }
 
     private func setUpConstrains() {
-        
+        view.addSubview(characterListView)
         NSLayoutConstraint.activate([
             characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),

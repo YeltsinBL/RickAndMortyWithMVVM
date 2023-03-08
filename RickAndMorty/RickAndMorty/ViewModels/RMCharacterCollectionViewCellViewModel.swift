@@ -25,7 +25,7 @@ final class RMCharacterCollectionViewCellViewModel {
     }
     
     public var characterStatusText: String {
-        return characterStatus.rawValue
+        return "Estado: \(characterStatus.text)"
     }
     
     // MARK: - Func

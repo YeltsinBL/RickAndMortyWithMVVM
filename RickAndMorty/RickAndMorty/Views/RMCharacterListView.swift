@@ -7,8 +7,10 @@
 
 import UIKit
 
+
 /// Vista que muestra la lista de los personajes
 final class RMCharacterListView: UIView {
+    
     
     private let characterListViewModel = RMCharacterListViewViewModel()
     
@@ -25,13 +27,17 @@ final class RMCharacterListView: UIView {
        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         // especificar el margen
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isHidden = true
         collectionView.alpha = 0 // opacidad
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(RMCharacterCollectionViewCell.self,
                                 forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
+        // Registramos la vista FooterLoading como pie de pagina del Collection
+        collectionView.register(RMFooterLoadingCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: RMFooterLoadingCollectionReusableView.indentifier)
         return collectionView
     }()
     
@@ -45,6 +51,7 @@ final class RMCharacterListView: UIView {
         addConstraints()
         
         spinner.startAnimating()
+        characterListViewModel.delegate = self //notificar que se actualizara el listado
         characterListViewModel.fetchCharacters()
         setUpCollectionView()
     }
@@ -75,15 +82,21 @@ final class RMCharacterListView: UIView {
         collectionView.dataSource = characterListViewModel
         collectionView.delegate = characterListViewModel
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2 , execute: {
-            self.spinner.stopAnimating()
-            self.collectionView.isHidden = false
-            
-            UIView.animate(withDuration: 0.4) {
-                self.collectionView.alpha = 1
-            }
-        })
-        
     }
     
+}
+
+/// Agregamos el protocolo a la ListView
+extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
+
+    /// Para que el Collection continúe y vuelva a cargar sus datos
+    func didLoadInitialCharacters() {
+        spinner.stopAnimating()
+        collectionView.isHidden = false
+        collectionView.reloadData() // Recargar para la búsqueda inicial de los personajes
+        UIView.animate(withDuration: 0.4) {
+            self.collectionView.alpha = 1
+        }
+
+    }
 }

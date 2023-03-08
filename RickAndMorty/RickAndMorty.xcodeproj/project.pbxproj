@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B475BC029B8E270003F3A3A /* RMFooterLoadingCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B475BBF29B8E270003F3A3A /* RMFooterLoadingCollectionReusableView.swift */; };
 		3B74C72D29B787AF000FDAC9 /* RMGetAllCharactersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B74C72C29B787AF000FDAC9 /* RMGetAllCharactersResponse.swift */; };
 		3B74C72F29B78D95000FDAC9 /* RMCharacterListViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B74C72E29B78D95000FDAC9 /* RMCharacterListViewViewModel.swift */; };
 		3B74C73129B78E3C000FDAC9 /* RMCharacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B74C73029B78E3C000FDAC9 /* RMCharacterListView.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B475BBF29B8E270003F3A3A /* RMFooterLoadingCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMFooterLoadingCollectionReusableView.swift; sourceTree = "<group>"; };
 		3B74C72C29B787AF000FDAC9 /* RMGetAllCharactersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMGetAllCharactersResponse.swift; sourceTree = "<group>"; };
 		3B74C72E29B78D95000FDAC9 /* RMCharacterListViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterListViewViewModel.swift; sourceTree = "<group>"; };
 		3B74C73029B78E3C000FDAC9 /* RMCharacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterListView.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			children = (
 				3B74C73029B78E3C000FDAC9 /* RMCharacterListView.swift */,
 				3B74C73429B7A17D000FDAC9 /* RMCharacterCollectionViewCell.swift */,
+				3B475BBF29B8E270003F3A3A /* RMFooterLoadingCollectionReusableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				3B7E70FD29B6BD4A00C0882D /* RMEndpoint.swift in Sources */,
 				3B7E70F129B6ABC800C0882D /* RMCharacterViewController.swift in Sources */,
 				3B74C73729B7A390000FDAC9 /* RMCharacterCollectionViewCellViewModel.swift in Sources */,
+				3B475BC029B8E270003F3A3A /* RMFooterLoadingCollectionReusableView.swift in Sources */,
 				3B7E70FB29B6BA9900C0882D /* RMRequest.swift in Sources */,
 				3B74C72F29B78D95000FDAC9 /* RMCharacterListViewViewModel.swift in Sources */,
 				3B7E70F329B6ABFF00C0882D /* RMEpisodeViewController.swift in Sources */,
