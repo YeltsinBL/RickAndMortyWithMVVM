@@ -26,9 +26,7 @@ final class RMCharacterListViewViewModel: NSObject {
     
     private var characters: [RMCharacter] = [] {
         didSet {
-          /* Cada ves que se asigna los personajes, solo formateamos los datos al modelo de la celda del ViewModel
-             que no contengan el mismo nombre, para evitar duplicados
-           */
+            // Cada ves que se asigna los personajes, formateamos los datos al modelo de la celda del ViewModel
             for character in characters {
                 let viewModel = RMCharacterCollectionViewCellViewModel(
                     characterName: character.name,

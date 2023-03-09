@@ -35,26 +35,19 @@ final class RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
     /// Buscar la imágen
     /// - Parameter completion: devuelve la data de la imágen o un error
     public func fetchImage(completion: @escaping (Result<Data, Error>) -> Void) {
-        // TODO: Resúmen del administrador de imágenes
+        // TODO: Abstraer al administrador de imágenes
         guard let url = characterImage else {
             completion(.failure(URLError(.badURL)))
             return
         }
         
-        let request = URLRequest(url: url)
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(.failure(error ?? URLError(.badServerResponse)))
-                return
-            }
-            completion(.success(data))
-        }
-        task.resume()
+        // Utilizamos el cargador de imágenes dedicado
+        RMImageLoader.shared.downloadImage(url, completion: completion)
         
     }
     
     //MARK: - Hashable
-    /**Creamos una forma más inteligente de seguir y verificar si el CollectionViewModel contienes los nuevos datos para evitar crear de manera redundante  el mismo ViewModel**/
+    /**Creamos una forma más inteligente de verificar si el CollectionViewModel contienes los nuevos datos para evitar crear de manera redundante  el mismo ViewModel**/
     static func == (lhs: RMCharacterCollectionViewCellViewModel, rhs: RMCharacterCollectionViewCellViewModel) -> Bool {
         // verificamos si los hash son iguales
         return lhs.hashValue == rhs.hashValue
