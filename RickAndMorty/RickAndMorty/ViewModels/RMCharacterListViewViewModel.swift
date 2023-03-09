@@ -8,8 +8,10 @@
 import UIKit
 
 protocol RMCharacterListViewViewModelDelegate: AnyObject {
-    /// Para que la Vista de Colección continúe deslizandose y cargue más datos
+    /// Para que la Vista de Colección cargue los personajes iniciales
     func didLoadInitialCharacters()
+    /// Para que se cargue los demás personajes de acuerdo a su ruta de índice
+    func didLoadMoreCharacters(with newIndexPaths: [IndexPath])
 
 }
 
@@ -24,14 +26,19 @@ final class RMCharacterListViewViewModel: NSObject {
     
     private var characters: [RMCharacter] = [] {
         didSet {
-          // Cada ves que se asigna los personajes, formateamos los datos al modelo de la celda del ViewModel
+          /* Cada ves que se asigna los personajes, solo formateamos los datos al modelo de la celda del ViewModel
+             que no contengan el mismo nombre, para evitar duplicados
+           */
             for character in characters {
                 let viewModel = RMCharacterCollectionViewCellViewModel(
                     characterName: character.name,
                     characterStatus: character.status,
                     characterImage: URL(string: character.image)
                 )
-                cellViewModels.append(viewModel)
+                // si el CellModelViews no contiene el nuevo ViewModel, debe de agregarlo
+                if !cellViewModels.contains(viewModel) {
+                    cellViewModels.append(viewModel)
+                }
             }
         }
     }
@@ -57,7 +64,7 @@ final class RMCharacterListViewViewModel: NSObject {
                 self?.apiInfo = info
                 // Activará la actualización de la Vista en el hilo principal
                 DispatchQueue.main.async {
-                    // Llamamos a la función del protocolo para actualizar los personajes
+                    // Llamamos a la función del protocolo para cargar los personajes
                     self?.delegate?.didLoadInitialCharacters()
                 }
             case .failure(let failure):
@@ -68,6 +75,63 @@ final class RMCharacterListViewViewModel: NSObject {
     
     //MARK: - Lógica para mostrar personajes adicionales
     
+    /// Buscar si se necesitan los personajes adicionales
+    public func fetchAdditionalCharacters(url: URL) {
+        // Para que busque solo cuando sea False
+        guard !isLoadingMoreCharacters else {
+            return
+        }
+        // Para que busque solo cuando se esta al final del Collection
+        isLoadingMoreCharacters = true
+        // creamos una solicitud
+        guard let request =  RMRequest(url: url) else {
+            // Si fallamos en crear una Solicitud
+            isLoadingMoreCharacters = false
+            print("Creación de solicitud fallida")
+            return
+        }
+        
+        RMService.shared.execute(request,
+                                 expecting: RMGetAllCharactersResponse.self) { [weak self] result in
+            // Creamos una referencia fuerte para quitar los self nulos
+            guard let strongSelf = self else {
+                return
+            }
+            
+            switch result {
+            case .success(let responseModel):
+                // Obtenemos los nuevos datos básicos e información
+                let moreResults = responseModel.results
+                let info = responseModel.info
+                // Almacenamos para saber la siguiente URL y obtener más datos
+                strongSelf.apiInfo = info
+                // Conjunto inicial de personajes
+                let originalCount = strongSelf.characters.count
+                // Conteo de los nuevos personajes
+                let newCount = moreResults.count
+                // Total de los conteos
+                let total = originalCount + newCount
+                // obtenemos el índice: el total de todas las busquedas - nueva busqueda actual
+                let startingIndex = total - newCount
+                // Creamos la matriz para el IndexPath
+                let indexPathsToAdd: [IndexPath] = Array(startingIndex..<(startingIndex + newCount))
+                    .compactMap {
+                        return IndexPath(row: $0, section: 0)
+                    }
+                // Agregamos los nuevos personajes en una colección de datos
+                strongSelf.characters.append(contentsOf: moreResults)
+                // Activará la actualización de la Vista en el hilo principal
+                DispatchQueue.main.async {
+                    // Llamamos a la función del protocolo para actualizar los personajes
+                    strongSelf.delegate?.didLoadMoreCharacters(with: indexPathsToAdd)
+                    strongSelf.isLoadingMoreCharacters = false
+                }
+            case .failure(let failure):
+                print("Fallo: \(String(describing: failure))")
+                strongSelf.isLoadingMoreCharacters = false
+            }
+        }
+    }
     /// Mostrar el cargando en la parte final del CollectionView
     public var shouldShowLoadMoreIndicator: Bool {
         // saber si existe mas información
@@ -140,21 +204,32 @@ UICollectionViewDelegateFlowLayout {
 extension RMCharacterListViewViewModel: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Mostrar el indicador de carga
-        guard shouldShowLoadMoreIndicator, !isLoadingMoreCharacters else {
+        guard shouldShowLoadMoreIndicator,
+              !isLoadingMoreCharacters, // indica si está o no cargando
+              !cellViewModels.isEmpty, // verificamos si la 'cellViewModels' no es vacio
+              let nextUrlString = apiInfo?.next, // obtenemos la siguiente URLString
+              let url = URL(string: nextUrlString) // convertirno la URLString a URL
+        else {
             return
         }
-        // Obtenemos los puntos del desplazamiento en Y
-        let offSet = scrollView.contentOffset.y
-        // obtener la altura total
-        let totalContentHeight = scrollView.contentSize.height
-        // obtener la altura real del marco de la vista de desplazamiento
-        let totalScrollViewFixedHeight = scrollView.frame.size.height
         
-        // Saber si estamos en la parte inferior del Collection:
-        // restamos la altura total - altura real del marco - la altura que tiene el Footer
-        if offSet >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
-            print("Comenzar a buscar")
-            isLoadingMoreCharacters = true
+        // retrasamos la acción por 2 segundos
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
+            // Obtenemos los puntos del desplazamiento en Y
+            let offSet = scrollView.contentOffset.y
+            // obtener la altura total
+            let totalContentHeight = scrollView.contentSize.height
+            // obtener la altura real del marco de la vista de desplazamiento
+            let totalScrollViewFixedHeight = scrollView.frame.size.height
+            
+            // Saber si estamos en la parte inferior del Collection:
+            // restamos la altura total - altura real del marco - la altura que tiene el Footer
+            if offSet >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
+                // Buscar mas personajes si se llego al final del Collection
+                self?.fetchAdditionalCharacters(url: url)
+            }
+            // limpiamos el Timer
+            t.invalidate()
         }
         
     }

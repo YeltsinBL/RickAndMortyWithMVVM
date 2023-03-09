@@ -7,7 +7,9 @@
 
 import Foundation
 
-final class RMCharacterCollectionViewCellViewModel {
+// Hashable: obtener el valor unico del Hash
+// Equatable: permite la ecuación del objeto si dos cosas son iguales entre si
+final class RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
     
      public let characterName: String
      private let characterStatus: RMCharacterStatus
@@ -50,5 +52,19 @@ final class RMCharacterCollectionViewCellViewModel {
         task.resume()
         
     }
+    
+    //MARK: - Hashable
+    /**Creamos una forma más inteligente de seguir y verificar si el CollectionViewModel contienes los nuevos datos para evitar crear de manera redundante  el mismo ViewModel**/
+    static func == (lhs: RMCharacterCollectionViewCellViewModel, rhs: RMCharacterCollectionViewCellViewModel) -> Bool {
+        // verificamos si los hash son iguales
+        return lhs.hashValue == rhs.hashValue
+    }
+    // Cada vez que se crea el ViewModel, obtener el valor único del Hash y saber si existe en la matriz
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(characterName)
+        hasher.combine(characterStatus)
+        hasher.combine(characterImage)
+    }
+    
     
 }

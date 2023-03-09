@@ -71,7 +71,64 @@ final class RMRequest {
         self.pathComponents = pathComponents
         self.queryParameters = queryParameters
     }
-
+    
+    /// Agregamos un nuevo inicializador de conveniencia opcional
+    /// - Parameter url: URL para analizar y adaptarla al init principal
+    convenience init?(url: URL) {
+        let string = url.absoluteString // obtenemos el string de la URL
+        // Verificamos si el String contiene la Url base, si lo tiene esta lista para hacer la Peticion HTTP
+        if !string.contains(Constants.baseUrl) {
+            return nil
+        }
+        // recortamos el String
+        let trimmed = string.replacingOccurrences(of: Constants.baseUrl+"/", with: "")
+        // analizamos el String recortado
+        if trimmed.contains("/") {
+            // separamos el string por el '/'
+            let components = trimmed.components(separatedBy: "/")
+            // Verificamos si no está vacío
+            if !components.isEmpty {
+                // obtenemos el primer elemento
+                let endpointString = components[0]
+                // comparamos si existe ese elemento en nuestro Endpoint
+                if let rmEndpoint = RMEndpoint(rawValue: endpointString) {
+                    self.init(endPoint: rmEndpoint)
+                    return
+                }
+            }
+        } else if trimmed.contains("?") {
+            // separamos el string por el '/'
+            let components = trimmed.components(separatedBy: "?")
+            // Verificamos si no está vacío
+            if !components.isEmpty, components.count >= 2 {
+                // obtenemos el primer elemento que debe ser el Endpoint
+                let endpointString = components[0]
+                // obtenemos las queryItems de tipo String
+                let queryItemsString = components[1]
+                // convertimos los queryItemsString al formato de URLQueryItem
+                let queryItems: [URLQueryItem] = queryItemsString
+                    .components(separatedBy: "&")
+                    .compactMap {
+                        // verificamos si el valor contiene el signo '='
+                        guard $0.contains("=") else {
+                            return nil
+                        }
+                        //separamos el valor actual por el '='
+                        let part = $0.components(separatedBy: "=")
+                        
+                        return URLQueryItem(name: part[0], value: part[1])
+                    }
+                // Verificamos si el EndpointString existe en el RMEndpoint para continuar
+                if let rmEndpoint = RMEndpoint(rawValue: endpointString) {
+                    self.init(endPoint: rmEndpoint, queryParameters: queryItems)
+                    return
+                }
+            }
+        }
+        return nil
+        
+    }
+    
 }
 
 //crear solicitudes mas simples
