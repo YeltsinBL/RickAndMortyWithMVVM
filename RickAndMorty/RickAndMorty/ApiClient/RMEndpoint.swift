@@ -11,7 +11,7 @@ import Foundation
 @frozen enum RMEndpoint: String {
     /// Casos para obtener datos de los personajes
     case character
-    /// Casos para obtener datos de la localizacion
+    /// Casos para obtener datos de la ubicación
     case location
     /// Casos para obtener datos de los episodios
     case episode

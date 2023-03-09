@@ -52,7 +52,7 @@ final class RMRequest {
     }
     
     ///  URL de la Api construida y calculada
-    public var url: URL? {
+    public var endUrl: URL? {
         return URL(string: urlString)
     }
     
@@ -72,11 +72,11 @@ final class RMRequest {
         self.queryParameters = queryParameters
     }
     
-    /// Agregamos un nuevo inicializador de conveniencia opcional
+    /// Inicializador conveniencia opcional para adaptar la URL al init principal
     /// - Parameter url: URL para analizar y adaptarla al init principal
     convenience init?(url: URL) {
         let string = url.absoluteString // obtenemos el string de la URL
-        // Verificamos si el String contiene la Url base, si lo tiene esta lista para hacer la Peticion HTTP
+        // Verificamos si el String contiene la Url base
         if !string.contains(Constants.baseUrl) {
             return nil
         }
@@ -97,7 +97,7 @@ final class RMRequest {
                 }
             }
         } else if trimmed.contains("?") {
-            // separamos el string por el '/'
+            // separamos el string por el '?'
             let components = trimmed.components(separatedBy: "?")
             // Verificamos si no está vacío
             if !components.isEmpty, components.count >= 2 {

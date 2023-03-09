@@ -15,15 +15,16 @@ protocol RMCharacterListViewViewModelDelegate: AnyObject {
 
 }
 
-/// ViewModel para manejar la logica del RMCharacterListView
+/// ViewModel para manejar la lógica del RMCharacterListView
 final class RMCharacterListViewViewModel: NSObject {
 
     // Se crea una referencia débil para no hacer que retenga el puntero de memoria cíclica y fuga de memoria
     public weak var delegate: RMCharacterListViewViewModelDelegate?
     
-    // Para saber si se esta cargando más Personajes
+    // Para saber si se está cargando más Personajes
     private var isLoadingMoreCharacters = false
     
+    // Almacenamos todos los personajes y verificamos si existen duplicados
     private var characters: [RMCharacter] = [] {
         didSet {
             // Cada ves que se asigna los personajes, formateamos los datos al modelo de la celda del ViewModel
@@ -75,11 +76,11 @@ final class RMCharacterListViewViewModel: NSObject {
     
     /// Buscar si se necesitan los personajes adicionales
     public func fetchAdditionalCharacters(url: URL) {
-        // Para que busque solo cuando sea False
+        // Para que busque sólo cuando sea False
         guard !isLoadingMoreCharacters else {
             return
         }
-        // Para que busque solo cuando se esta al final del Collection
+        // Para que busque sólo cuando se esta al final del Collection
         isLoadingMoreCharacters = true
         // creamos una solicitud
         guard let request =  RMRequest(url: url) else {
@@ -138,18 +139,20 @@ final class RMCharacterListViewViewModel: NSObject {
     
 }
 
-//MARK: - Implementacion del CollectionView
+//MARK: - Implementación del CollectionView
 
 extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout {
     
-    // MARK: - Func Almacenar los datos en el Collection
+    // MARK: - Func DataSource - Almacenar los datos en el Collection
     
+    /// Cantidad de elementos en el Collection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Devolvemos cuantas celdas mostramos
         return cellViewModels.count
     }
     
+    /// Agregar los datos del ViewModel a las celdas
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier,
@@ -162,6 +165,7 @@ UICollectionViewDelegateFlowLayout {
         return cell
     }
     
+    /// Agregar el Spinner en el Footer del Collection
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         // Devolvemos la vista reutilizable que no sea nula
         guard kind == UICollectionView.elementKindSectionFooter,
@@ -178,8 +182,9 @@ UICollectionViewDelegateFlowLayout {
         return footer
     }
     
-    // MARK: - Func Especificar tamaños
+    // MARK: - Func DelegateFlowLayout - Especificar tamaños
     
+    /// Tamaño de las celdas
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // Obtener el tamaño del dispositivo
         let bound = UIScreen.main.bounds
@@ -188,6 +193,7 @@ UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: width * 1.5)
     }
     
+    /// Tamaño del Footer
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         // si ya no hay datos para cargar, pone el tamaño del pie de pagina en cero
         guard shouldShowLoadMoreIndicator else {
@@ -200,6 +206,8 @@ UICollectionViewDelegateFlowLayout {
 
 //MARK: - ScrollView
 extension RMCharacterListViewViewModel: UIScrollViewDelegate {
+    
+    /// Saber si hicimos Scroll
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Mostrar el indicador de carga
         guard shouldShowLoadMoreIndicator,

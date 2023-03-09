@@ -85,7 +85,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant:  -3)
         ])
     }
-    
+    /// Para actualizar el estilo de las Cell al cambiar el color del sistema
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         setUpLayer()

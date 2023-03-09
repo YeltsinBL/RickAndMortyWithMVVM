@@ -61,7 +61,7 @@ final class RMService {
     /// - Parameter rmRequest: Obtenemos la URL
     /// - Returns: devuelve la URLRequest opcional
     private func request(from rmRequest: RMRequest) -> URLRequest? {
-        guard let url = rmRequest.url else { return nil }
+        guard let url = rmRequest.endUrl else { return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = rmRequest.httpMethod

@@ -20,15 +20,15 @@ final class RMImageLoader {
     // MARK: - Func
     
     
-    /// Cargar las imágenes usando el almacenamiento en cache de imágenes en memoria para evitar cargarlas cuando ya se ha hecho anteriormente
+    /// Cargar las imágenes usando el almacenamiento en cache de imágenes en memoria para evitar cargarlas desde la URL  cuando ya se ha hecho anteriormente
     /// - Parameter url: URL para obtener las imágenes
     /// - Parameter completion: Devolucion de la data de la URL
     public func downloadImage(_ url: URL, completion:@escaping (Result<Data, Error>) -> Void) {
-        // Indicamos que los datos dentro de aqui serán de nuestra memoria cache de datos de imágenes
+        // Indicamos que los datos dentro de aquí serán de nuestra memoria cache de datos de imágenes
         
         let key = url.absoluteString as NSString
         
-        // Verificamos si la la clave existe en cache para devolverla directamente o la almacenamos
+        // Verificamos si la clave existe en cache para devolverla directamente o la almacenamos
         if let data = imageDataCache.object(forKey: key) {
             print("Leyendo desde la cache \(key)")
             completion(.success(data as Data)) //NSData == Data || NSString == String
