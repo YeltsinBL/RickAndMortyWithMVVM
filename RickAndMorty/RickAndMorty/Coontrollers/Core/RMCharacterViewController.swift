@@ -8,7 +8,7 @@
 import UIKit
 
 /// Controlador para mostrar y buscar Personajes
-final class RMCharacterViewController: UIViewController {
+final class RMCharacterViewController: UIViewController, RMCharacterListViewDelegate  {
 
     private let characterListView = RMCharacterListView()
     
@@ -19,7 +19,7 @@ final class RMCharacterViewController: UIViewController {
         title = "Personajes"
         
         setUpConstrains()
-        
+        characterListView.delegate = self
     }
 
     private func setUpConstrains() {
@@ -32,4 +32,19 @@ final class RMCharacterViewController: UIViewController {
             
         ])
     }
+    
+    // MARK: - Implementación del RMCharacterListViewDelegate
+    
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter) {
+        // Creamos una instancia del ViewModel
+        let viewModel = RMCharacterDetailViewViewModel(character: character)
+        // LLamamos al controller del detalle de los personajes
+        let characterDetailViewController = RMCharacterDetailViewController(viewModel: viewModel)
+        // Que no muestre el título en modo grande
+        characterDetailViewController.navigationItem.largeTitleDisplayMode = .never
+        // Navegamos a la vista del detalle
+        navigationController?.pushViewController(characterDetailViewController, animated: true)
+        
+    }
+    
 }

@@ -7,10 +7,21 @@
 
 import UIKit
 
+protocol RMCharacterListViewDelegate: AnyObject {
+    /// Notificar al Controller que se ha seleccionado un personaje
+    /// - Parameters:
+    ///   - characterListView: Tipo de vista actual
+    ///   - character: Los datos que se enviara
+    func rmCharacterListView(
+        _ characterListView: RMCharacterListView,
+        didSelectCharacter character: RMCharacter)
+}
 
 /// Vista que muestra la lista de los personajes
 final class RMCharacterListView: UIView {
     
+    // Usar las funciones del Protocolo delegate de una manera débil
+    public weak var delegate: RMCharacterListViewDelegate?
     
     private let characterListViewModel = RMCharacterListViewViewModel()
     
@@ -97,7 +108,6 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
         UIView.animate(withDuration: 0.4) {
             self.collectionView.alpha = 1
         }
-
     }
     
     func didLoadMoreCharacters(with newIndexPaths: [IndexPath]) {
@@ -106,6 +116,11 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
             // Insertamos elementos en el CollectionView en una ruta de índice particular
             self.collectionView.insertItems(at: newIndexPaths)
         }
-        
     }
+    
+    func didSelectCharacter(_ character: RMCharacter) {
+        // Enviamos los datos al controller
+        delegate?.rmCharacterListView(self, didSelectCharacter: character)
+    }
+    
 }

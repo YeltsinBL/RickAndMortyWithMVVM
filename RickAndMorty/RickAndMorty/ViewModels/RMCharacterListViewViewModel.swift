@@ -11,7 +11,11 @@ protocol RMCharacterListViewViewModelDelegate: AnyObject {
     /// Para que la Vista de Colección cargue los personajes iniciales
     func didLoadInitialCharacters()
     /// Para que se cargue los demás personajes de acuerdo a su ruta de índice
+    /// - Parameter newIndexPaths: Matriz de la cantidad de los nuevos índices agregados
     func didLoadMoreCharacters(with newIndexPaths: [IndexPath])
+    /// Notificar a la View que se ha seleccionado un personaje
+    /// - Parameter character: Modelo del personaje seleccionado
+    func didSelectCharacter(_ character: RMCharacter)
 
 }
 
@@ -180,6 +184,18 @@ UICollectionViewDelegateFlowLayout {
         }
         footer.startAnimating()
         return footer
+    }
+    
+    // MARK: - Func Delegate - Acciones en la Cell
+    
+    /// Acción de seleccionar una celda
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Quitamos el resaltado al seleccionar
+        collectionView.deselectItem(at: indexPath, animated: true)
+        // Obtener el modelo de la cell que a sido seleccionada usando la ruta del indice
+        let character = characters[indexPath.row]
+        // Pasamos el modelo seleccionado
+        delegate?.didSelectCharacter(character)
     }
     
     // MARK: - Func DelegateFlowLayout - Especificar tamaños
