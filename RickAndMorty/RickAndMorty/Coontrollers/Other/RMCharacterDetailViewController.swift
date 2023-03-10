@@ -97,16 +97,42 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         /// Agrega los datos del ViewModel a las celdas
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        if indexPath.section == 0 {
-            cell.backgroundColor = .systemPink
-        } else if indexPath.section == 1 {
-            cell.backgroundColor = .systemGray
-        }else {
-            cell.backgroundColor = .systemGreen
+        /// Obtener la sección actual para identificar la cell y enviar los datos de sus respectivos ViewModel
+        let sectionType = characterDetailViewViewModel.sections[indexPath.section]
+        // De acuerdo a la sección se identifica y envia los datos
+        switch sectionType {
+            case .photo(let characterPhotoCollectionViewCellViewModel):
+                guard  let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: RMCharacterPhotoCollectionViewCell.cellIdentifer,
+                    for: indexPath
+                ) as? RMCharacterPhotoCollectionViewCell else {
+                    fatalError("Sin soporte")
+                }
+                cell.backgroundColor = .systemPink
+                
+                return cell
+                
+            case .information(let characterInfoCollectionViewCellViewModel):
+                guard  let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: RMCharacterInfoCollectionViewCell.cellIdentifer,
+                    for: indexPath
+                ) as? RMCharacterInfoCollectionViewCell else {
+                    fatalError("Sin soporte")
+                }
+                cell.backgroundColor = .systemGray
+                return cell
+                
+            case .episodes(let characterEpisodeCollectionViewCellViewModel):
+                guard  let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifer,
+                    for: indexPath
+                ) as? RMCharacterEpisodeCollectionViewCell else {
+                    fatalError("Sin soporte")
+                }
+                cell.backgroundColor = .systemGreen
+                return cell
+                
         }
-        return cell
-        
     }
     
     

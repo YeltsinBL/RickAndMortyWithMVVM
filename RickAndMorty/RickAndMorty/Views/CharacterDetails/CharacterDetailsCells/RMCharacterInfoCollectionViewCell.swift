@@ -7,6 +7,8 @@
 
 import UIKit
 
-class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
+final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
+    /// Identificador de la Cell
+    static let cellIdentifer = "RMCharacterInfoCollectionViewCell"
     
 }
