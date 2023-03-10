@@ -55,7 +55,7 @@ final class RMCharacterDetailViewViewModel {
                 .init(value: "\(charater.episode.count)", title: "Total Episodios")
             ]),
             .episodes(characterEpisodeCollectionViewCellViewModel:
-                     // Sera dinamico en funcion de cada personaje
+                     // Será dinámico en función de cada personaje
                       charater.episode.compactMap {
                           return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
                       }
