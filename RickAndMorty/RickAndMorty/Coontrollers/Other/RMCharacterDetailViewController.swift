@@ -74,16 +74,23 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
     // MARK: - Func DataSource - Almacenar los datos en el Collection
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+        /// Cantidad de tipos de secciones
         return characterDetailViewViewModel.sections.count
     }
     
-    /// Cantidad de elementos en el Collection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        /// Cantidad de elementos a mostrar de acuerdo a la sección
+        switch section {
+            case 0: return 1
+            case 1: return 2
+            case 2: return 10
+            default: return 1
+        }
     }
     
-    /// Agregar los datos del ViewModel a las celdas
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        /// Agrega los datos del ViewModel a las celdas
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         if indexPath.section == 0 {
             cell.backgroundColor = .systemPink

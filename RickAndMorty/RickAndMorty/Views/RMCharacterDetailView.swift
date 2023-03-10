@@ -81,112 +81,15 @@ final class RMCharacterDetailView: UIView {
         /// Obtener todos los tipos de Secciones
         let sectionTypes = characterDetailViewViewModel.sections
         
-        /// Crear los CollectionViewCompositionalLayout de acuerdo al tipo de Secciones
+        /// Crear los CollectionViewCompositionalLayout de acuerdo al tipo de Secciones, se puede especificar un diseño diferente de acuerdo al sectionIndex
         switch sectionTypes[sectionIndex]{
             case .photo:
-                return createPhotoSectionLayout()
+                return characterDetailViewViewModel.createPhotoSectionLayout()
             case .information:
-                return createInformationSectionLayout()
+                return characterDetailViewViewModel.createInformationSectionLayout()
             case .episodes:
-                return createEpisodesSectionLayout()
+                return characterDetailViewViewModel.createEpisodesSectionLayout()
         }
-        
-    }
-    
-    /// Crea el diseño de la sección de la foto
-    /// - Returns: devuelve el CollectionViewCompositionalLayout
-    private func createPhotoSectionLayout() -> NSCollectionLayoutSection {
-        
-        // Instanciamos un elemento de diseño de colección con un tamaño
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                // Especificamos las dimensiones
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
-            )
-        )
-        
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                        leading: 0,
-                                                        bottom: 10,
-                                                        trailing: 0)
-        
-        // Instanciamos un Grupo de diseño de colección en vertical
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: NSCollectionLayoutSize(
-                // Especificamos las dimensiones
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(150)
-            ),
-            subitems: [item]
-        )
-        let section = NSCollectionLayoutSection(group: group)
-        
-        return section
-    }
-
-    /// Crea el diseño de la sección de la información
-    /// - Returns: devuelve el CollectionViewCompositionalLayout
-    private func createInformationSectionLayout() -> NSCollectionLayoutSection {
-        
-        // Instanciamos un elemento de diseño de colección con un tamano de diseno
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                // Especificamos las dimensiones
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
-            )
-        )
-        
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                        leading: 0,
-                                                        bottom: 10,
-                                                        trailing: 0)
-        
-        // Instanciamos un Grupo de diseño de colección en vertical
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: NSCollectionLayoutSize(
-                // Especificamos las dimensiones
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(150)
-            ),
-            subitems: [item]
-        )
-        let section = NSCollectionLayoutSection(group: group)
-        
-        return section
-    }
-
-    /// Crea el diseño de la sección de los episodios
-    /// - Returns: devuelve el CollectionViewCompositionalLayout
-    private func createEpisodesSectionLayout() -> NSCollectionLayoutSection {
-        
-        // Instanciamos un elemento de diseño de colección con un tamano de diseno
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                // Especificamos las dimensiones
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
-            )
-        )
-        
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                        leading: 0,
-                                                        bottom: 10,
-                                                        trailing: 0)
-        
-        // Instanciamos un Grupo de diseño de colección en vertical
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: NSCollectionLayoutSize(
-                // Especificamos las dimensiones
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(150)
-            ),
-            subitems: [item]
-        )
-        let section = NSCollectionLayoutSection(group: group)
-        
-        return section
     }
 
 }
