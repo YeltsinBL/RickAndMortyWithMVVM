@@ -43,20 +43,23 @@ final class RMCharacterDetailViewViewModel {
     private func setUpSections() {
         sections = [
             // Creamos instancias con sus ViewModel respectivo para enviar los datos
-            .photo(characterPhotoCollectionViewCellViewModel: .init()),
+            .photo(characterPhotoCollectionViewCellViewModel: .init(imageUrl: URL(string: charater.image))),
             .information(characterInfoCollectionViewCellViewModel: [
-                .init(),
-                .init(),
-                .init()
+                .init(value: charater.status.text, title: "Estado"),
+                .init(value: charater.gender.rawValue, title: "Genero"),
+                .init(value: charater.type, title: "Tipo"),
+                .init(value: charater.species, title: "Especie"),
+                .init(value: charater.origin.name, title: "Origen"),
+                .init(value: charater.location.name, title: "Ubicacion"),
+                .init(value: charater.created, title: "Creado"),
+                .init(value: "\(charater.episode.count)", title: "Total Episodios")
             ]),
-            .episodes(characterEpisodeCollectionViewCellViewModel: [
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init()
-            ])
+            .episodes(characterEpisodeCollectionViewCellViewModel:
+                     // Sera dinamico en funcion de cada personaje
+                      charater.episode.compactMap {
+                          return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
+                      }
+                     )
         ]
     }
     
