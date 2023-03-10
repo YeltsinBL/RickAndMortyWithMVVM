@@ -11,13 +11,14 @@ import UIKit
 final class RMCharacterDetailViewViewModel {
     
     /// Tipos de secciones para personalizar el CollectionViewCompositionalLayout
-    enum SectionType: CaseIterable {
-        case photo
-        case information
-        case episodes
+    // se usa los valores asosciados a cada uno de los casos, estos pueden ser uno o varios ViewModels
+    enum SectionType {
+        case photo(characterPhotoCollectionViewCellViewModel: RMCharacterPhotoCollectionViewCellViewModel)
+        case information(characterInfoCollectionViewCellViewModel: [RMCharacterInfoCollectionViewCellViewModel])
+        case episodes(characterEpisodeCollectionViewCellViewModel: [RMCharacterEpisodeCollectionViewCellViewModel])
     }
     /// Almacena todos los tipos de secciones para personalizar el CollectionViewCompositionalLayout
-    public let sections = SectionType.allCases
+    public var sections: [SectionType] = []
     
     private let charater: RMCharacter
     
@@ -33,9 +34,33 @@ final class RMCharacterDetailViewViewModel {
     
     init(character : RMCharacter) {
         self.charater = character
+        setUpSections()
     }
     
-    // MARK: - Section Layout
+    // MARK: - Func Configurar las Sections
+    
+    /// Configurar las Secciones para saber las cantidades de celdas a crear de acuerdo a las veces inicializadas
+    private func setUpSections() {
+        sections = [
+            // Creamos instancias con sus ViewModel respectivo para enviar los datos
+            .photo(characterPhotoCollectionViewCellViewModel: .init()),
+            .information(characterInfoCollectionViewCellViewModel: [
+                .init(),
+                .init(),
+                .init()
+            ]),
+            .episodes(characterEpisodeCollectionViewCellViewModel: [
+                .init(),
+                .init(),
+                .init(),
+                .init(),
+                .init(),
+                .init()
+            ])
+        ]
+    }
+    
+    // MARK: - Func Section Layout
     
     
     /// Crea el diseño de la sección de la foto

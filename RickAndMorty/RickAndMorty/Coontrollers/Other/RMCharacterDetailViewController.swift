@@ -80,11 +80,17 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         /// Cantidad de elementos a mostrar de acuerdo a la sección
-        switch section {
-            case 0: return 1
-            case 1: return 2
-            case 2: return 10
-            default: return 1
+        
+        /// Obtenemos el tipo de sección actual mediante el indice de la sección
+        let sectionType = characterDetailViewViewModel.sections[section]
+        // De acuerdo a la cantidad de veces inicializadas se crean las celdas para las secciones
+        switch sectionType {
+        case .photo:
+            return 1
+        case .information(let characterInfoCollectionViewCellViewModel):
+            return characterInfoCollectionViewCellViewModel.count
+        case .episodes(let characterEpisodeCollectionViewCellViewModel):
+            return characterEpisodeCollectionViewCellViewModel.count
         }
     }
     
