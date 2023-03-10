@@ -39,7 +39,7 @@ final class RMCharacterViewController: UIViewController, RMCharacterListViewDele
         // Creamos una instancia del ViewModel
         let viewModel = RMCharacterDetailViewViewModel(character: character)
         // LLamamos al controller del detalle de los personajes
-        let characterDetailViewController = RMCharacterDetailViewController(viewModel: viewModel)
+        let characterDetailViewController = RMCharacterDetailViewController(characterDetailViewViewModel: viewModel)
         // Que no muestre el título en modo grande
         characterDetailViewController.navigationItem.largeTitleDisplayMode = .never
         // Navegamos a la vista del detalle

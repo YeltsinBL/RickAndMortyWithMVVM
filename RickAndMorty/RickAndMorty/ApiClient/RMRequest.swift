@@ -90,9 +90,16 @@ final class RMRequest {
             if !components.isEmpty {
                 // obtenemos el primer elemento
                 let endpointString = components[0]
+                var pathComponents: [String] = []
+                if components.count > 1 {
+                    // Agregamos todos los componentes separados
+                    pathComponents = components
+                    // Eliminamos el primer componente que es el EndpointString
+                    pathComponents.removeFirst()
+                }
                 // comparamos si existe ese elemento en nuestro Endpoint
                 if let rmEndpoint = RMEndpoint(rawValue: endpointString) {
-                    self.init(endPoint: rmEndpoint)
+                    self.init(endPoint: rmEndpoint, pathComponents: pathComponents)
                     return
                 }
             }

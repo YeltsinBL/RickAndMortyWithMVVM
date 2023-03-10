@@ -30,7 +30,6 @@ final class RMImageLoader {
         
         // Verificamos si la clave existe en cache para devolverla directamente o la almacenamos
         if let data = imageDataCache.object(forKey: key) {
-            print("Leyendo desde la cache \(key)")
             completion(.success(data as Data)) //NSData == Data || NSString == String
             return
         }
@@ -45,7 +44,6 @@ final class RMImageLoader {
             // Almacenar en cache los datos que obtenemos
             let value = data as NSData
             self?.imageDataCache.setObject(value, forKey: key)
-            print("Agregando al cache: \(key)")
             completion(.success(data))
         }
         task.resume()
