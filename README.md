@@ -32,15 +32,19 @@ En `Models`:
 -- DataTypes: son los tipos de datos separados.
 
 En `Views`:
-- Para los personajes se creo:
--- `RMFooterLoadingCollectionReusableView`: esta es una vista reusable. Se creo y configuro el 'spinner' que se mostrará al final del 'Collection'.
+- `RMFooterLoadingCollectionReusableView`: esta es una vista reusable. Se creo y configuro el 'spinner' que se mostrará al final del 'Collection'.
+- Para el listado de los personajes `Views -> Character`:
 -- `RMCharacterListView`: es la lista donde se muestra los personajes, aquí se agregó un 'spinner' para indicar que se está cargando para mostrar los personajes iniciales y un 'collection' donde se registra la 'cell' y el 'spinner'; y se agrego el protocolo 'Delegate' del ViewModel.
 -- Se creó el protocolo 'Delegate' de esta vista para notificar a su controller que se ha seleccionado un personaje para mostrar su detalle.
 -- `RMCharacterCollectionViewCell`: aquí se crean y configuran los elementos que contendrá cada cell y se los relaciona con los datos que llega del ViewModel.
--- `RMCharacterDetailView`: vista donde se mostrará la información mas detallada del personaje seleccionado.
+- Para el detalle de los personajes `Views -> CharacterDetails`:
+-- `RMCharacterDetailView`: vista donde se mostrará la información detallada del personaje seleccionado.
+-- Se registran las Cell por las secciones y sus cantidades.
+-- `CharacterDetailsCells > RMCharacterPhotoCollectionViewCell`: vista de la primera sección del detalle, aquí solo se muestra la imagen del personaje seleccionado.
+-- `CharacterDetailsCells > RMCharacterInfoCollectionViewCell`: vista de la segunda seccion del detalle, aquí se muestran las demás caracterícticas y detalles del personaje seleccionado.
 
 En `ViewModels`:
-- Para los personajes se creo:
+- Para el listados de los personajes se creo:
 -- `RMCharacterListViewViewModel`: este es el ViewModel de la lista-collection. Se creo el protocolo delegate que usa el 'RMCharacterListView'. Aquí se hace la llamada a la API y enviamos los datos necesario recibidos al 'RMCharacterCollectionViewCellViewModel' para quedarnos con el modelo de la vista.
 -- Usamos el Protocolo 'UICollectionViewDataSource' para almacenar los datos en el Collection.
 -- Usamos el Protocolo 'UICollectionViewDelegate' para notificar que se actualizará y mostrará el listado-collection en la vista con los datos. También se utilizó para recibir la acción de seleccionar una celda para ver los detalles del personaje.
@@ -48,7 +52,10 @@ En `ViewModels`:
 -- Usamos el Protocolo 'UIScrollViewDelegate' para saber si estamos en la parte final del Collection y buscar más personajes si existieran.
 -- Si existe mas personajes para mostrar, se hace nuevamente una llamada a la API para obtener los nuevos datos y realizamos la lógica para informar al 'Collection' que agregue más celdas de acuerdo a la cantidad de información obtenida y vuelve a llamar al protocolo 'UICollectionViewDataSource'.
 -- `RMCharacterCollectionViewCellViewModel`: utilizamos el 'Hashable' para asignar un valor Hash único al ViewModel para evitar repeticiones y el 'Equatable' para comparar si existen datos iguales.
--- `RMCharacterDetailViewViewModel`: recibe y envía los datos del personaje seleccionado para mostrar más información.
+- Para el detalle del personaje seleccionado:
+-- `RMCharacterDetailViewViewModel`: recibe y envía los datos del personaje seleccionado a las diferentes secciones según corresponda. También crea el diseño de las secciones.
+-- `CharacterDetailsCell > RMCharacterPhotoCollectionViewCellViewModel`: recibe la URL de la imagen y hace el llamado para obtenerla.
+-- `CharacterDetailsCell > RMCharacterInfoCollectionViewCellViewModel`: recibe el tipo de información y su valor para hacer la lógica con ellos y devolver los datos correspondientes.
 
 En `ApiClient`:
 - RMService: responsable de hacer las llamadas a la API.
