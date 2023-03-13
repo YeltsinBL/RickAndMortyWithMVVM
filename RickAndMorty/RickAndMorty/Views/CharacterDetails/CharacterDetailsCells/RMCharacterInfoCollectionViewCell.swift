@@ -95,7 +95,10 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     /// - Parameter characterInfoCollectionViewCellViewModel: Recibe los datos del ViewModel
     public func configure(with characterInfoCollectionViewCellViewModel: RMCharacterInfoCollectionViewCellViewModel){
         titleLabel.text = characterInfoCollectionViewCellViewModel.title
-        valueLabel.text = characterInfoCollectionViewCellViewModel.value
+        valueLabel.text = characterInfoCollectionViewCellViewModel.displayValue
+        iconImageView.image = characterInfoCollectionViewCellViewModel.iconImage
+        iconImageView.tintColor = characterInfoCollectionViewCellViewModel.tintColor
+        titleLabel.textColor = characterInfoCollectionViewCellViewModel.tintColor
     }
     
 }
