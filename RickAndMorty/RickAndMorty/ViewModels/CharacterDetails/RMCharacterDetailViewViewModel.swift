@@ -45,14 +45,14 @@ final class RMCharacterDetailViewViewModel {
             // Creamos instancias con sus ViewModel respectivo para enviar los datos
             .photo(characterPhotoCollectionViewCellViewModel: .init(imageUrl: URL(string: charater.image))),
             .information(characterInfoCollectionViewCellViewModel: [
-                .init(value: charater.status.text, title: "Estado"),
-                .init(value: charater.gender.rawValue, title: "Genero"),
-                .init(value: charater.type, title: "Tipo"),
-                .init(value: charater.species, title: "Especie"),
-                .init(value: charater.origin.name, title: "Origen"),
-                .init(value: charater.location.name, title: "Ubicacion"),
-                .init(value: charater.created, title: "Creado"),
-                .init(value: "\(charater.episode.count)", title: "Total Episodios")
+                .init(type: .status ,value: charater.status.text),
+                .init(type: .gender ,value: charater.gender.rawValue),
+                .init(type: .type ,value: charater.type),
+                .init(type: .species ,value: charater.species),
+                .init(type: .origin ,value: charater.origin.name),
+                .init(type: .location ,value: charater.location.name),
+                .init(type: .created ,value: charater.created),
+                .init(type: .episodeCount ,value: "\(charater.episode.count)")
             ]),
             .episodes(characterEpisodeCollectionViewCellViewModel:
                      // Será dinámico en función de cada personaje

@@ -15,7 +15,6 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     private let valueLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Tierra"
         label.font = .systemFont(ofSize: 22, weight: .light)
         return label
     }()
@@ -23,7 +22,6 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Ubicacion"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 20, weight: .medium)
         return label
@@ -32,7 +30,6 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     private let iconImageView: UIImageView = {
        let icon = UIImageView()
         icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.image = UIImage(systemName: "globe.americas")
         icon.contentMode = .scaleAspectFit
         return icon
     }()
@@ -63,9 +60,9 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     /// Cuando se reutilice la cell
     override func prepareForReuse() {
         super.prepareForReuse()
-//        valueLabel.text = nil
-//        titleLabel.text = nil
-//        iconImageView.image = nil
+        valueLabel.text = nil
+        titleLabel.text = nil
+        iconImageView.image = nil
     }
     
     /// Configurar los constraints
@@ -97,7 +94,8 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     /// Recibir el ViewModel para asignarlo a los elementos de la Cell
     /// - Parameter characterInfoCollectionViewCellViewModel: Recibe los datos del ViewModel
     public func configure(with characterInfoCollectionViewCellViewModel: RMCharacterInfoCollectionViewCellViewModel){
-        
+        titleLabel.text = characterInfoCollectionViewCellViewModel.title
+        valueLabel.text = characterInfoCollectionViewCellViewModel.value
     }
     
 }
