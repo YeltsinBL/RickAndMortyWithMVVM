@@ -13,6 +13,26 @@ final class RMCharacterInfoCollectionViewCellViewModel {
     
     private let value: String
     
+    
+    // Inicializar las formateadores de fechas es costoso en rendimiento
+    /// Formato de la fecha del API
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
+    /// Formatear la Fecha
+    static let shortdateFormatter: DateFormatter = {
+       // Formato
+        let formatter = DateFormatter()
+//        formatter.dateStyle = .medium
+//        formatter.timeStyle = .short
+        formatter.dateFormat = "dd/MM/yyyy h:mm a"
+        return formatter
+    }()
+    
     /// Nombre obtenido del TitleCell
     public var title: String {
         type.displayTitle
@@ -21,6 +41,11 @@ final class RMCharacterInfoCollectionViewCellViewModel {
     /// Valor de la Información
     public var displayValue: String {
         if value.isEmpty {return "Ninguno"}
+        
+        // Cambiar el estilo de la fecha
+        if let date = Self.dateFormatter.date(from: value), type == .created {
+            return Self.shortdateFormatter.string(from: date)
+        }
         return value
     }
     
