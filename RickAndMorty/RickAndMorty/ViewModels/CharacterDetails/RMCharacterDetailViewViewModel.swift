@@ -11,8 +11,8 @@ import UIKit
 final class RMCharacterDetailViewViewModel {
     
     /// Tipos de secciones para personalizar el CollectionViewCompositionalLayout
-    // se usa los valores asosciados a cada uno de los casos, estos pueden ser uno o varios ViewModels
     enum SectionType {
+        // se usa los valores asosciados a cada uno de los casos, estos pueden ser uno o varios ViewModels
         case photo(characterPhotoCollectionViewCellViewModel: RMCharacterPhotoCollectionViewCellViewModel)
         case information(characterInfoCollectionViewCellViewModel: [RMCharacterInfoCollectionViewCellViewModel])
         case episodes(characterEpisodeCollectionViewCellViewModel: [RMCharacterEpisodeCollectionViewCellViewModel])

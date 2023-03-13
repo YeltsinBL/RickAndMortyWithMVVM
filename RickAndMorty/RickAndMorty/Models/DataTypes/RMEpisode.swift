@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct RMEpisode: Codable
+// Extendemos del protocolo
+struct RMEpisode: Codable, RMEpisodeDataRender
 {
     let id: Int
     let name: String
