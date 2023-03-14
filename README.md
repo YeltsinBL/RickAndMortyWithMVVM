@@ -25,6 +25,8 @@ En `Controller -> Core`:
 
 En `Controller -> Other`:
 - RMCharacterDetailViewController: controller para mostrar la vista del detalle de los personajes.
+-- Navega hacia el detalle del episodio del personaje seleccionado.
+- RMEpisodeDetailViewController: controller para visualizar el detalle del episodio.
 
 En `Models`:
 - Se creó dos carpetas para diferencia los modelos:
@@ -42,6 +44,7 @@ En `Views`:
 -- Se registran las Cell por las secciones y sus cantidades.
 -- `CharacterDetailsCells > RMCharacterPhotoCollectionViewCell`: vista de la primera sección del detalle, aquí solo se muestra la imagen del personaje seleccionado.
 -- `CharacterDetailsCells > RMCharacterInfoCollectionViewCell`: vista de la segunda seccion del detalle, aquí se muestran las demás caracterícticas y detalles del personaje seleccionado.
+-- `CharacterDetailsCells > RMCharacterEpisodeCollectionViewCell`: vista de la tercera seccion del detalle, muestra todos los episodios donde aparece el personaje, a la vez que busca si hay nuevos episodios para mostrar.
 
 En `ViewModels`:
 - Para el listados de los personajes se creo:
@@ -56,6 +59,7 @@ En `ViewModels`:
 -- `RMCharacterDetailViewViewModel`: recibe y envía los datos del personaje seleccionado a las diferentes secciones según corresponda. También crea el diseño de las secciones.
 -- `CharacterDetailsCell > RMCharacterPhotoCollectionViewCellViewModel`: recibe la URL de la imagen y hace el llamado para obtenerla.
 -- `CharacterDetailsCell > RMCharacterInfoCollectionViewCellViewModel`: recibe el tipo de información y su valor para hacer la lógica con ellos y devolver los datos correspondientes.
+-- `CharacterDetailsCell > RMCharacterEpisodeCollectionViewCellViewModel`: recibe la url del episodio para obtener su información y devuelve el modelo. Se creó un protocolo con sus propiedades para enviar a la vista, en vez de mandar todo el modelo con datos que no se utilizará.
 
 En `ApiClient`:
 - RMService: responsable de hacer las llamadas a la API.
@@ -67,3 +71,4 @@ En `Managers`:
 -- Cargar las imágenes usando el almacenamiento en cache de imágenes en memoria para evitar cargarlas desde la URL cuando ya se ha hecho anteriormente.
 
 > Nota: se esta usando Singleton para acceder a las siguientes clases: RMService, RMImageLoader.
+Para obtener los cambios en el ViewModel del Episodio, se utiliza el patrón Published y Subscriber.
