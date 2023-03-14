@@ -44,6 +44,7 @@
 		3B7E710329B6EE7100C0882D /* RMCharacterStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7E710229B6EE7100C0882D /* RMCharacterStatus.swift */; };
 		3B7E710529B6EECD00C0882D /* RMCharacterGender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7E710429B6EECD00C0882D /* RMCharacterGender.swift */; };
 		3BA1643629C0044C008529A3 /* RMEpisodeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA1643529C0044C008529A3 /* RMEpisodeDetailViewController.swift */; };
+		3BA1643829C0241E008529A3 /* RMAPICacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA1643729C0241E008529A3 /* RMAPICacheManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		3B7E710229B6EE7100C0882D /* RMCharacterStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterStatus.swift; sourceTree = "<group>"; };
 		3B7E710429B6EECD00C0882D /* RMCharacterGender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterGender.swift; sourceTree = "<group>"; };
 		3BA1643529C0044C008529A3 /* RMEpisodeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMEpisodeDetailViewController.swift; sourceTree = "<group>"; };
+		3BA1643729C0241E008529A3 /* RMAPICacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAPICacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				3B475BC129B9927D003F3A3A /* RMImageLoader.swift */,
+				3BA1643729C0241E008529A3 /* RMAPICacheManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				3B7E70FB29B6BA9900C0882D /* RMRequest.swift in Sources */,
 				3B56B3CA29BB8A6700E60326 /* RMCharacterEpisodeCollectionViewCell.swift in Sources */,
 				3B74C72F29B78D95000FDAC9 /* RMCharacterListViewViewModel.swift in Sources */,
+				3BA1643829C0241E008529A3 /* RMAPICacheManager.swift in Sources */,
 				3B7E70F329B6ABFF00C0882D /* RMEpisodeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
