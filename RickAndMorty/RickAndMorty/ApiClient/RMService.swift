@@ -12,6 +12,9 @@ final class RMService {
     ///Instancia  de Singleton compartida
     static let shared = RMService()
     
+    /// Instancia del Administrador en Cache de API
+    private let cacheManager = RMAPICacheManager()
+    
     ///Hacemos el INIT privado para que utilice la instancia Shared
     private init() {}
     
@@ -31,12 +34,27 @@ final class RMService {
         expecting type: T.Type,
         completion: @escaping (Result<T, Error>) -> Void){
         
+            // Verificar si existen los datos en el Caché
+            if let cacheData = cacheManager.cachesResponse(for: request.endPoint, url: request.endUrl) {
+                print("Uso de la respuesta API almacenada")
+                // Decodificar la respuesta
+                do {
+                    // Devuelve un modelo apropiado de acuerdo a lo almacenado en caché
+                    let result = try JSONDecoder().decode(type.self, from: cacheData)
+                    completion(.success(result))
+                }
+                catch {
+                    completion(.failure(error))
+                }
+                return
+            }
+            
             guard let urlRequest = self.request(from: request) else {
                 completion(.failure(RMServiceError.failedToCreateRequest))
                 return
             }
             
-            let task = URLSession.shared.dataTask(with: urlRequest) { data, _, error in
+            let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(error ?? RMServiceError.failedToGetData))
                     return
@@ -46,6 +64,10 @@ final class RMService {
                 do {
                     // Devuelve un modelo apropiado de acuerdo al tipo que se le llame
                     let result = try JSONDecoder().decode(type.self, from: data)
+                    // Almacenamos los datos en el caché
+                    self?.cacheManager.setCaches(for: request.endPoint,
+                                                 url: request.endUrl,
+                                                 data: data)
                     completion(.success(result))
                 }
                 catch {

@@ -14,7 +14,7 @@ final class RMRequest {
         static let baseUrl = "https://rickandmortyapi.com/api"
     }
     /// Partes Finales - Listado
-    private let endPoint: RMEndpoint
+    let endPoint: RMEndpoint
     /// Ruta de Componentes - Buscar por Id
     private let pathComponents: [String]
     /// Parámetros de consultas
