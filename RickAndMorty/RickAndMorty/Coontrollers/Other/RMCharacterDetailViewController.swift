@@ -137,4 +137,25 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
     }
     
     
+    // MARK: - Func Delegate - Interacción en los episodios
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        /// Obtener la posición del ViewModel seleccionado
+        let sectionType = characterDetailViewViewModel.sections[indexPath.section]
+        // De acuerdo a la sección se identifica y envia los datos
+        switch sectionType {
+        case .photo, .information:
+            break
+        case .episodes:
+            // Obtenemos los episodios del ViewModel
+            let episodes = self.characterDetailViewViewModel.episodes
+            // Seleccionamos el episodio
+            let episodeSelection = episodes[indexPath.row]
+            // Navegamos al detalle del episodio seleccionado
+            let episodeDetailViewController = RMEpisodeDetailViewController(url: URL(string: episodeSelection))
+            navigationController?.pushViewController(episodeDetailViewController, animated: true)
+            
+        }
+    }
+    
 }

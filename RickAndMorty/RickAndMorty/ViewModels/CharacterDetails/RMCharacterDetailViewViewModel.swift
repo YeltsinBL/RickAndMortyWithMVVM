@@ -10,6 +10,11 @@ import UIKit
 /// Recibe y envía los datos del personaje seleccionado para mostrar más información
 final class RMCharacterDetailViewViewModel {
     
+    /// Episodios del personaje seleccionado
+    public var episodes: [String] {
+        charater.episode
+    }
+    
     /// Tipos de secciones para personalizar el CollectionViewCompositionalLayout
     enum SectionType {
         // se usa los valores asosciados a cada uno de los casos, estos pueden ser uno o varios ViewModels

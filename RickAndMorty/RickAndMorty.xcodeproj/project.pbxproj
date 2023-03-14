@@ -43,6 +43,7 @@
 		3B7E710129B6EB7100C0882D /* RMSingleLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7E710029B6EB7100C0882D /* RMSingleLocation.swift */; };
 		3B7E710329B6EE7100C0882D /* RMCharacterStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7E710229B6EE7100C0882D /* RMCharacterStatus.swift */; };
 		3B7E710529B6EECD00C0882D /* RMCharacterGender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7E710429B6EECD00C0882D /* RMCharacterGender.swift */; };
+		3BA1643629C0044C008529A3 /* RMEpisodeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA1643529C0044C008529A3 /* RMEpisodeDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		3B7E710029B6EB7100C0882D /* RMSingleLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSingleLocation.swift; sourceTree = "<group>"; };
 		3B7E710229B6EE7100C0882D /* RMCharacterStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterStatus.swift; sourceTree = "<group>"; };
 		3B7E710429B6EECD00C0882D /* RMCharacterGender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterGender.swift; sourceTree = "<group>"; };
+		3BA1643529C0044C008529A3 /* RMEpisodeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMEpisodeDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				3B0C629029BA80CF008EA9FA /* RMCharacterDetailViewController.swift */,
+				3BA1643529C0044C008529A3 /* RMEpisodeDetailViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				3B7E70F129B6ABC800C0882D /* RMCharacterViewController.swift in Sources */,
 				3B74C73729B7A390000FDAC9 /* RMCharacterCollectionViewCellViewModel.swift in Sources */,
 				3B0C629329BA81FD008EA9FA /* RMCharacterDetailView.swift in Sources */,
+				3BA1643629C0044C008529A3 /* RMEpisodeDetailViewController.swift in Sources */,
 				3B0C629129BA80CF008EA9FA /* RMCharacterDetailViewController.swift in Sources */,
 				3B475BC229B9927D003F3A3A /* RMImageLoader.swift in Sources */,
 				3B475BC029B8E270003F3A3A /* RMFooterLoadingCollectionReusableView.swift in Sources */,
