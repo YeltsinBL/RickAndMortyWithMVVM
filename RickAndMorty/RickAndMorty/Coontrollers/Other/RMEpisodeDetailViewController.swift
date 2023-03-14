@@ -10,10 +10,13 @@ import UIKit
 final class RMEpisodeDetailViewController: UIViewController {
 
     
-    private let url: URL?
+    private let episodeDetailViewViewModel: RMEpisodeDetailViewViewModel
+    
+    
+    //MARK: - Init
     
     init(url: URL?) {
-        self.url = url
+        self.episodeDetailViewViewModel = .init(endpointURL: url)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -21,11 +24,16 @@ final class RMEpisodeDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Cycle Life
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Episodio"
         view.backgroundColor = .systemGreen
     }
     
+    
+    //MARK: - Func
 
+    
 }

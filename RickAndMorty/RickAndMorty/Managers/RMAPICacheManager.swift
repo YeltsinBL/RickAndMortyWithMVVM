@@ -36,6 +36,7 @@ final class RMAPICacheManager {
             let url = url else { return nil }
         // Obtener el objeto con una clave particular
         let key = url.absoluteString as NSString // lo converimos en un objeto enlazado a una clase
+        // Busca en el caché si existe un dato con esa clave
         return targetCache.object(forKey: key) as? Data
     }
     
@@ -50,6 +51,7 @@ final class RMAPICacheManager {
             let url = url else { return }
         // Obtener el objeto con una clave particular
         let key = url.absoluteString as NSString // lo converimos en un objeto enlazado a una clase
+        // Agrega al caché los datos con su clave
         targetCache.setObject(data as NSData, forKey: key)
     }
     
@@ -59,7 +61,7 @@ final class RMAPICacheManager {
     private func setUpCache(){
         // Recorremos el Endpoint
         RMEndpoint.allCases.forEach { endpoint in
-            // Agregamos en el diccionario el endpoint y crea una nueva instancia
+            // Agregamos en el diccionario el endpoint para crear un nuevo objeto de caché con una nueva instancia
             cacheDictionary[endpoint] = NSCache<NSString, NSData>()
         }
     }
