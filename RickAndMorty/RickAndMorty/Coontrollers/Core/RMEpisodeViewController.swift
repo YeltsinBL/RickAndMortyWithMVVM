@@ -20,8 +20,25 @@ final class RMEpisodeViewController: UIViewController, RMEpisodeListViewDelegate
         
         setUpConstrains()
         episodeListView.delegate = self
+        addSearchButton()
     }
-
+    
+    // MARK: - Func
+    
+    /// Botón de búsqueda en la parte superior derecha
+    private func addSearchButton(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .search,
+            target: self,
+            action: #selector(didTapSearch)
+        )
+    }
+    
+    @objc
+    private func didTapSearch(){
+        
+    }
+    
     private func setUpConstrains() {
         view.addSubview(episodeListView)
         NSLayoutConstraint.activate([

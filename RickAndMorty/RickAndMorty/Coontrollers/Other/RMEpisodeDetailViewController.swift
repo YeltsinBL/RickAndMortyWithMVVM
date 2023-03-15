@@ -12,6 +12,7 @@ final class RMEpisodeDetailViewController: UIViewController {
     
     private let episodeDetailViewViewModel: RMEpisodeDetailViewViewModel
     
+    private let episodeDetailView = RMEpisodeDetailView()
     
     //MARK: - Init
     
@@ -28,12 +29,32 @@ final class RMEpisodeDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(episodeDetailView)
+        setUpConstraints()
         title = "Episodio"
-        view.backgroundColor = .systemGreen
+        
+        // Botón en la parte superior derecha
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(didTapShared)
+        )
+        
     }
     
     
     //MARK: - Func
 
-    
+    private func setUpConstraints(){
+        NSLayoutConstraint.activate([
+            episodeDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            episodeDetailView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            episodeDetailView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            episodeDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    @objc
+    private func didTapShared() {
+        
+    }
 }

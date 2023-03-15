@@ -20,8 +20,32 @@ final class RMCharacterViewController: UIViewController, RMCharacterListViewDele
         
         setUpConstrains()
         characterListView.delegate = self
+        addSearchButton()
     }
-
+    
+    // MARK: - Func
+    
+    /// Botón de búsqueda en la parte superior derecha
+    private func addSearchButton(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .search,
+            target: self,
+            action: #selector(didTapSearch)
+        )
+    }
+    
+    @objc
+    /// Mostrar la vista de la búsqueda
+    private func didTapSearch(){
+        // Instanciar
+        let searchViewController = RMSearchViewController(config: .init(types: .character))
+        // No mostrar el título grande
+        searchViewController.navigationItem.largeTitleDisplayMode = .never
+        // Navegar
+        navigationController?.pushViewController(searchViewController, animated: true)
+        
+    }
+    
     private func setUpConstrains() {
         view.addSubview(characterListView)
         NSLayoutConstraint.activate([

@@ -36,7 +36,6 @@ final class RMService {
         
             // Verificar si existen los datos en el Caché
             if let cacheData = cacheManager.cachesResponse(for: request.endPoint, url: request.endUrl) {
-                print("Uso de la respuesta API almacenada")
                 // Decodificar la respuesta
                 do {
                     // Devuelve un modelo apropiado de acuerdo a lo almacenado en caché
