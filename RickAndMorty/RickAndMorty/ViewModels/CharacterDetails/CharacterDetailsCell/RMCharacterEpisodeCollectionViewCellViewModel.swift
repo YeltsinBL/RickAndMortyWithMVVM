@@ -5,7 +5,7 @@
 //  Created by YeltsinMacPro13 on 10/03/23.
 //
 
-import Foundation
+import UIKit
 
 /// Representacion de un episodio
 protocol RMEpisodeDataRender {
@@ -23,6 +23,9 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
     
     private var dataBlock: ((RMEpisodeDataRender) -> Void)?
     
+    /// Color para el borde de la cell
+    public let borderColor: UIColor
+    
     /// Almacena el modelo del Episodio de la API
     private var episode: RMEpisode? {
         // Iniciara tan pronto se le asigne algo
@@ -35,8 +38,13 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
     
     //MARK: - Init
     
-    init(episodeDataUrl: URL?) {
+    /// Inicializador del RMCharacterEpisodeCollectionViewCellViewModel
+    /// - Parameters:
+    ///   - episodeDataUrl: URL para bascar la información de los episodios
+    ///   - borderColor: asignar un color al borde de las celdas opcional
+    init(episodeDataUrl: URL?, borderColor: UIColor = .systemBlue) {
         self.episodeDataUrl = episodeDataUrl
+        self.borderColor = borderColor
     }
     
     //MARK: - Func

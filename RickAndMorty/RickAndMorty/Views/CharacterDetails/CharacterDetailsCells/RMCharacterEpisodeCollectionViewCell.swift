@@ -15,21 +15,21 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textAlignment = .center
+//        label.textAlignment = .center
         return label
     }()
     private let nameLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .regular)
-        label.textAlignment = .center
+//        label.textAlignment = .center
         return label
     }()
     private let airDateLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18, weight: .light)
-        label.textAlignment = .center
+//        label.textAlignment = .center
         return label
     }()
     
@@ -37,9 +37,7 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .tertiarySystemBackground
-        contentView.layer.cornerRadius = 8
-        contentView.layer.borderWidth = 2
-        contentView.layer.borderColor = UIColor.systemBlue.cgColor
+        setUpLayer()
         contentView.addCustomSubViews(seasonLabel, nameLabel, airDateLabel)
         setUpConstraints()
     }
@@ -55,7 +53,11 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         nameLabel.text = nil
         airDateLabel.text = nil
     }
-    
+    /// Configurar el estilo de las Cell
+    private func setUpLayer() {
+        contentView.layer.cornerRadius = 8
+        contentView.layer.borderWidth = 2
+    }
     /// Configurar los constraints
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
@@ -81,11 +83,13 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     public func configure(with characterEpisodeCollectionViewCellViewModel: RMCharacterEpisodeCollectionViewCellViewModel){
         // Obtenemos los datos de las propiedades del protocolo
         characterEpisodeCollectionViewCellViewModel.registerForData { [weak self] data in
-            self?.seasonLabel.text = "Episodio " + data.episode
+            self?.seasonLabel.text = "Episodio: " + data.episode
             self?.nameLabel.text = data.name
-            self?.airDateLabel.text = "Fecha Emision " + data.air_date
+            self?.airDateLabel.text = "Fecha Emisión: " + data.air_date
         }
         characterEpisodeCollectionViewCellViewModel.fetchEpisode()
+        // asignar un color al borde de las cell
+        contentView.layer.borderColor = characterEpisodeCollectionViewCellViewModel.borderColor.cgColor
     }
     
 }

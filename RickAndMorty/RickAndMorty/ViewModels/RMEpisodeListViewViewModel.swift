@@ -28,6 +28,19 @@ final class RMEpisodeListViewViewModel: NSObject {
     // Para saber si se está cargando más Episodios
     private var isLoadingMoreEpisodes = false
     
+    // Colección de Colores
+    private let borderColors: [UIColor] = [
+        .systemGreen,
+        .systemBlue,
+        .systemOrange,
+        .systemPink,
+        .systemPurple,
+        .systemRed,
+        .systemYellow,
+        .systemIndigo,
+        .systemMint
+    ]
+    
     // Almacenamos todos los episodios y verificamos si existen duplicados
     private var episodes: [RMEpisode] = [] {
         didSet {
@@ -35,7 +48,9 @@ final class RMEpisodeListViewViewModel: NSObject {
             for episode in episodes {
                 //Reutilizamos el ViewModel de los episodios del los personajes
                 let viewModel = RMCharacterEpisodeCollectionViewCellViewModel(
-                    episodeDataUrl: URL(string: episode.url))
+                    episodeDataUrl: URL(string: episode.url),
+                    borderColor: borderColors.randomElement() ?? .systemBlue // elegimos un color aleatorio o sino el azul
+                )
                 
                 // si el CellModelViews no contiene el nuevo ViewModel, debe de agregarlo
                 if !cellViewModels.contains(viewModel) {
@@ -201,11 +216,11 @@ UICollectionViewDelegateFlowLayout {
     
     /// Tamaño de las celdas
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // Obtener el tamaño del dispositivo
-        let bound = UIScreen.main.bounds
+        // Obtener el tamaño de la vista de la coleccion
+        let bound = collectionView.bounds
         // Especificar el Tamaño de las celdas
-        let width = (bound.width-30)/2
-        return CGSize(width: width, height: width * 0.8)
+        let width = bound.width-20
+        return CGSize(width: width, height: 100)
     }
     
     /// Tamaño del Footer
