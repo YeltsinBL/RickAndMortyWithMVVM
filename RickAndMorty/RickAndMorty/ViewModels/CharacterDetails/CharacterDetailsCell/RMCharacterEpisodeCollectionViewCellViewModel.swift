@@ -15,7 +15,7 @@ protocol RMEpisodeDataRender {
 }
 
 
-final class RMCharacterEpisodeCollectionViewCellViewModel {
+final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
     
     private let episodeDataUrl: URL?
     
@@ -42,7 +42,7 @@ final class RMCharacterEpisodeCollectionViewCellViewModel {
     //MARK: - Func
     
     /* Uso del patrón Published y Subscriber
-        Cuando nos registramos recuperamos el protocolo en vez del modelo, asi solo obtenemos las propiedas indicadas en protocolo y no todas las del modelo
+     Cuando nos registramos recuperamos el protocolo en vez del modelo, asi solo obtenemos las propiedas indicadas en protocolo y no todas las del modelo
      */
     public func registerForData(_ block:@escaping (RMEpisodeDataRender) -> Void) {
         self.dataBlock =  block
@@ -77,4 +77,16 @@ final class RMCharacterEpisodeCollectionViewCellViewModel {
         }
         
     }
+
+    
+    //MARK: - Func Hashable - Equatable
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.episodeDataUrl?.absoluteString ?? "")
+    }
+    static func == (lhs: RMCharacterEpisodeCollectionViewCellViewModel,
+                    rhs: RMCharacterEpisodeCollectionViewCellViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
 }
