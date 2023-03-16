@@ -15,7 +15,8 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .secondarySystemBackground
+        setUpLayer()
     }
     
     required init?(coder: NSCoder) {
@@ -24,6 +25,14 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+    }
+    
+    private func setUpLayer() {
+        layer.cornerRadius = 8
+        layer.masksToBounds = true
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.secondaryLabel.cgColor
+        
     }
     
     public func configure(with viewModel: RMEpisodeInfoCollectionViewCellViewModel){

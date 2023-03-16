@@ -165,6 +165,19 @@ extension RMEpisodeDetailView {
     /// - Parameter section: Cantidad de las secciones a crear
     /// - Returns: Devuelve una colección del diseño de la sección
     func layoutSection(for section: Int) -> NSCollectionLayoutSection {
+        guard let sections = episodeDetailViewViewModel?.episodeCellViewModel
+        else { return createInfoLayout() }
+        switch sections[section] {
+        case .information:
+            return createInfoLayout()
+        case .characters:
+            return createCharacterLayout()
+            
+        }
+        
+    }
+    
+    func createInfoLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                             heightDimension: .fractionalHeight(1)))
         // agregar margen a las cell
@@ -175,4 +188,17 @@ extension RMEpisodeDetailView {
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
+    func createCharacterLayout() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                            heightDimension: .fractionalHeight(1)))
+        // agregar margen a las cell
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5)
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: .init(widthDimension: .fractionalWidth(1),
+                              heightDimension: .absolute(260)),
+            subitems: [item, item])
+        let section = NSCollectionLayoutSection(group: group)
+        return section
+    }
+    
 }
