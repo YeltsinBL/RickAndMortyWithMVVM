@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RMEpisodeDetailViewViewModelDelegate: AnyObject {
-    /// Busca los detalles del episodio
+    /// Notifica que ya se encontró la información del episodio y esta listo para utilizarlo
     func didFetchEpisodeDetail()
 }
 
@@ -16,8 +16,9 @@ final class RMEpisodeDetailViewViewModel {
     
     private let endpointURL: URL?
     
-    private var dataTuple: (RMEpisode, [RMCharacter])? {
+    private var dataTuple: (episode: RMEpisode, characters: [RMCharacter])? {
         didSet {
+            createCellViewModels()
             // notificamos a nuestro delegado de la vista que ya puede leer datos de este modelo
             delegate?.didFetchEpisodeDetail()
         }
@@ -25,10 +26,21 @@ final class RMEpisodeDetailViewViewModel {
     
     public weak var delegate: RMEpisodeDetailViewViewModelDelegate?
     
+    //MARK: - Tipo de Seccion para la vista del detalle
+    
+    enum SectionType {
+        case information(viewModels: [RMEpisodeInfoCollectionViewCellViewModel])
+        case characters(viewModel: [RMCharacterCollectionViewCellViewModel])
+    }
+    
+    // Variable pública pero solo para leer los datos
+    public private(set) var episodeCellViewModel: [SectionType] = []
+    
     //MARK: - Init
     
     init(endpointURL: URL?) {
         self.endpointURL = endpointURL
+//        fetchEpisodeData()
     }
     
     
@@ -44,7 +56,6 @@ final class RMEpisodeDetailViewViewModel {
         RMService.shared.execute(request, expecting: RMEpisode.self) { [weak self] result in
             switch result {
             case .success(let model):
-//                print("Datos: \(String(describing: model))")
                 self?.fetchRelatedCharacters(episode: model)
             case .failure:
                 break
@@ -94,12 +105,32 @@ final class RMEpisodeDetailViewViewModel {
         // notificar en el hilo principal que se hizo todas las solicitudes
         group.notify(queue: .main) {
             self.dataTuple = (
-                episode,
-                characters
+                episode: episode,
+                characters: characters
             )
         }
         
     }
     
+    /// Crea las Cell a partir de la Tupla de Datos
+    private func createCellViewModels() {
+        guard let dataTuple = dataTuple else { return }
+        // obtenemos los datos de la Tupla de datos
+        let episodeInfo = dataTuple.episode
+        let characters = dataTuple.characters
+        episodeCellViewModel = [
+            .information(viewModels: [
+                .init(title: "Nombre del Episodio", value: episodeInfo.name),
+                .init(title: "Fecha Emision", value: episodeInfo.air_date),
+                .init(title: "Episodio", value: episodeInfo.episode),
+                .init(title: "Creado", value: episodeInfo.created)
+            ]),
+            .characters(viewModel: characters.compactMap({
+                return RMCharacterCollectionViewCellViewModel(characterName: $0.name,
+                                                              characterStatus: $0.status,
+                                                              characterImage: URL(string: $0.image))
+            }))
+        ]
+    }
     
 }

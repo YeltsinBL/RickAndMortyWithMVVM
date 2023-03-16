@@ -10,9 +10,10 @@ import UIKit
 final class RMEpisodeDetailView: UIView {
 
     private var episodeDetailViewViewModel: RMEpisodeDetailViewViewModel? {
-        //configuracion al obtener el ViewModel
+        //configuración al obtener el ViewModel
         didSet {
             spinner.stopAnimating()
+            self.collectionView?.reloadData()
             self.collectionView?.isHidden = false
             //desvancer luego de obtener el modelo
             UIView.animate(withDuration: 0.3) {
@@ -81,7 +82,10 @@ final class RMEpisodeDetailView: UIView {
         collectionView.alpha = 0 // que sea opaco
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(RMEpisodeInfoCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RMEpisodeInfoCollectionViewCell.cellIdentifier)
+        collectionView.register(RMCharacterCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
         return collectionView
     }
     
@@ -99,17 +103,50 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
     //MARK: - Func DataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        guard let sections = episodeDetailViewViewModel?.episodeCellViewModel else { return 0 }
+
+        // obtenemos el tipo de sección de acuerdo a la posición
+        let sectionType = sections[section]
+        switch sectionType {
+        case .information(let viewModels):
+            return viewModels.count
+        case .characters(let viewModel):
+            return viewModel.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .systemYellow
-        return cell
+        guard let sections = episodeDetailViewViewModel?.episodeCellViewModel
+        else { fatalError("No hay ViewModel")  }
+
+        // obtenemos el tipo de sección de acuerdo a la posición
+        let sectionType = sections[indexPath.section]
+        switch sectionType {
+        case .information(let viewModels):
+            // Obtenemos el ViewModel de acuerdo a la fila
+            let cellViewModel = viewModels[indexPath.row]
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RMEpisodeInfoCollectionViewCell.cellIdentifier,
+                for: indexPath) as? RMEpisodeInfoCollectionViewCell else {
+                fatalError()
+            }
+            cell.configure(with: cellViewModel)
+            return cell
+        case .characters(let viewModel):
+            let cellViewModel = viewModel[indexPath.row]
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier,
+                for: indexPath) as? RMCharacterCollectionViewCell else {
+                fatalError()
+            }
+            cell.configure(with: cellViewModel)
+            return cell
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        // Cantidad de las secciones en el ViewModel
+        return episodeDetailViewViewModel?.episodeCellViewModel.count ?? 0
     }
     
     //MARK: - Func Delegate

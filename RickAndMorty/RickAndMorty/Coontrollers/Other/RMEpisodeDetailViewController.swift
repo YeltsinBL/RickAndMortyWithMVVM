@@ -39,6 +39,8 @@ final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailView
             action: #selector(didTapShared)
         )
         episodeDetailViewViewModel.delegate = self
+        // buscamos la información del episodio después de crear la vista del detalle
+        episodeDetailViewViewModel.fetchEpisodeData()
         didFetchEpisodeDetail()
     }
     
