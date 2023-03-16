@@ -118,12 +118,20 @@ final class RMEpisodeDetailViewViewModel {
         // obtenemos los datos de la Tupla de datos
         let episodeInfo = dataTuple.episode
         let characters = dataTuple.characters
+        
+        // Formatear la fecha de Creación del Episodio
+        var createdString = ""
+        if let createdDate = RMCharacterInfoCollectionViewCellViewModel.dateFormatter.date(from: episodeInfo.created) {
+            createdString = RMCharacterInfoCollectionViewCellViewModel.shortdateFormatter.string(from: createdDate)
+        }
+        
+        
         episodeCellViewModel = [
             .information(viewModels: [
                 .init(title: "Nombre del Episodio", value: episodeInfo.name),
                 .init(title: "Fecha Emision", value: episodeInfo.air_date),
                 .init(title: "Episodio", value: episodeInfo.episode),
-                .init(title: "Creado", value: episodeInfo.created)
+                .init(title: "Creado", value: createdString)
             ]),
             .characters(viewModel: characters.compactMap({
                 return RMCharacterCollectionViewCellViewModel(characterName: $0.name,

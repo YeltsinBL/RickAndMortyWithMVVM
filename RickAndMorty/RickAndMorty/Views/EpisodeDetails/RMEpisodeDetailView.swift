@@ -12,12 +12,16 @@ final class RMEpisodeDetailView: UIView {
     private var episodeDetailViewViewModel: RMEpisodeDetailViewViewModel? {
         //configuración al obtener el ViewModel
         didSet {
-            spinner.stopAnimating()
             self.collectionView?.reloadData()
             self.collectionView?.isHidden = false
             //desvancer luego de obtener el modelo
             UIView.animate(withDuration: 0.3) {
-                self.collectionView?.alpha = 1
+                // Verificar si el ViewModel no es vacío para mostrar el collectionView
+                guard let sections = self.episodeDetailViewViewModel?.episodeCellViewModel else { return  }
+                if !sections.isEmpty {
+                    self.collectionView?.alpha = 1
+                    self.spinner.stopAnimating()
+                }
             }
         }
     }
@@ -161,7 +165,7 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
 // Para configurar el CollectionViewCompositionLayout
 extension RMEpisodeDetailView {
     
-    /// Creación del diseño de la sección
+    /// Creación del diseño por sección
     /// - Parameter section: Cantidad de las secciones a crear
     /// - Returns: Devuelve una colección del diseño de la sección
     func layoutSection(for section: Int) -> NSCollectionLayoutSection {
@@ -177,17 +181,22 @@ extension RMEpisodeDetailView {
         
     }
     
+    /// Creación del diseño de la  sección Información
+    /// - Returns: Devuelve una colección del diseño de la sección Información
     func createInfoLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                             heightDimension: .fractionalHeight(1)))
         // agregar margen a las cell
         item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                       heightDimension: .absolute(100)),
+                                                                       heightDimension: .absolute(80)),
                                                      subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
+    
+    /// Creación del diseño de la  sección Personajes
+    /// - Returns: Devuelve una colección del diseño de la sección Personajes
     func createCharacterLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
                                                             heightDimension: .fractionalHeight(1)))
