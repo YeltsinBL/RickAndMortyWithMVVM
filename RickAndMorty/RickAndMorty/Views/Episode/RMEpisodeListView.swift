@@ -101,8 +101,8 @@ final class RMEpisodeListView: UIView {
 /// Agregamos el protocolo a la ListView
 extension RMEpisodeListView: RMEpisodeListViewViewModelDelegate {
 
-    /// Para que el Collection continúe y vuelva a cargar sus datos
     func didLoadInitialEpisodes() {
+        // Para que el Collection continúe y vuelva a cargar sus datos
         spinner.stopAnimating()
         collectionView.isHidden = false
         collectionView.reloadData() // Recargar para la búsqueda inicial de los episodios

@@ -43,7 +43,6 @@ final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailView
         episodeDetailViewViewModel.delegate = self
         // buscamos la información del episodio después de crear la vista del detalle
         episodeDetailViewViewModel.fetchEpisodeData()
-        didFetchEpisodeDetail()
     }
     
     

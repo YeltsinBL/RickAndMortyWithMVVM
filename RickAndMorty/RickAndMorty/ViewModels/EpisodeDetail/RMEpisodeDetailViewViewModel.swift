@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RMEpisodeDetailViewViewModelDelegate: AnyObject {
-    /// Notifica que ya se encontró la información del episodio y esta listo para utilizarlo
+    /// Notifica que ya se obtuvo el detalle de la información del episodio seleccionado para utilizarlo
     func didFetchEpisodeDetail()
 }
 
@@ -40,7 +40,6 @@ final class RMEpisodeDetailViewViewModel {
     
     init(endpointURL: URL?) {
         self.endpointURL = endpointURL
-//        fetchEpisodeData()
     }
     
     
@@ -55,7 +54,7 @@ final class RMEpisodeDetailViewViewModel {
         return dataTuple.characters[index]
     }
     
-    //MARK: - Func Private
+    //MARK: - Func
     
     /// Buscar la información del episodio
     public func fetchEpisodeData() {

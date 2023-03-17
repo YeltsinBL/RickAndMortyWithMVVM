@@ -8,6 +8,10 @@
 import UIKit
 
 protocol RMEpisodeDetailViewDelegate: AnyObject {
+    /// Navega al detalle del Personaje desde el Detalle del Episodio
+    /// - Parameters:
+    ///   - detailView: Vista del detalle del Episodio
+    ///   - character: modelo del personaje
     func rmEpisodeDetailView(
         _ detailView: RMEpisodeDetailView,
         didSelect character: RMCharacter
@@ -19,18 +23,14 @@ final class RMEpisodeDetailView: UIView {
     public weak var delegate: RMEpisodeDetailViewDelegate?
     
     private var episodeDetailViewViewModel: RMEpisodeDetailViewViewModel? {
-        //configuración al obtener el ViewModel
+        //configuración al obtener el modelo del ViewModel: oculta el spinner y muestra el collectionview
         didSet {
+            spinner.stopAnimating()
             self.collectionView?.reloadData()
             self.collectionView?.isHidden = false
             //desvancer luego de obtener el modelo
             UIView.animate(withDuration: 0.3) {
-                // Verificar si el ViewModel no es vacío para mostrar el collectionView
-                guard let sections = self.episodeDetailViewViewModel?.episodeCellViewModel else { return  }
-                if !sections.isEmpty {
                     self.collectionView?.alpha = 1
-                    self.spinner.stopAnimating()
-                }
             }
         }
     }
@@ -83,6 +83,7 @@ final class RMEpisodeDetailView: UIView {
             
         ])
     }
+    
     /// Creación de CollectionView mediante un diseño de composición
     /// - Returns: Devuelve un UICollectionView
     private func createCollectionView() -> UICollectionView {
