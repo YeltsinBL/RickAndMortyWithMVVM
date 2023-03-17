@@ -10,6 +10,13 @@ import UIKit
 /// Controlador para mostrar varias opciones y configuraciones de la aplicación
 final class RMSettingsViewController: UIViewController {
 
+    // Obtenemos todos los modelos de los tipos de configuracion
+    private let settingsViewViewModel = RMSettingsViewViewModel(
+        cellViewModels: RMSettingsOption.allCases.compactMap({
+            return RMSettingsCellViewModel(type: $0)
+        })
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
