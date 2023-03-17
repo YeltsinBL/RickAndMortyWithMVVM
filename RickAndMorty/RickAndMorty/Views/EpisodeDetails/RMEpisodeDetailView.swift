@@ -7,8 +7,17 @@
 
 import UIKit
 
+protocol RMEpisodeDetailViewDelegate: AnyObject {
+    func rmEpisodeDetailView(
+        _ detailView: RMEpisodeDetailView,
+        didSelect character: RMCharacter
+    )
+}
+
 final class RMEpisodeDetailView: UIView {
 
+    public weak var delegate: RMEpisodeDetailViewDelegate?
+    
     private var episodeDetailViewViewModel: RMEpisodeDetailViewViewModel? {
         //configuración al obtener el ViewModel
         didSet {
@@ -158,6 +167,20 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // no resaltar el celda seleccionada
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let episodeCellViewModel = episodeDetailViewViewModel else { return }
+        // Obtener la sección del ViewModel de acuerdo al índice
+        let section = episodeCellViewModel.episodeCellViewModel[indexPath.section]
+        switch section {
+        case .information:
+            break
+        case .characters:
+            guard let character = episodeCellViewModel.character(at: indexPath.row) else {
+                return
+            }
+            delegate?.rmEpisodeDetailView(self, didSelect: character)
+            
+        }
     }
 }
 

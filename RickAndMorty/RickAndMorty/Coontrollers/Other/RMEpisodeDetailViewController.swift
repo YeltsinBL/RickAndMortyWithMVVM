@@ -7,7 +7,8 @@
 
 import UIKit
 
-final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailViewViewModelDelegate {
+final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailViewViewModelDelegate,
+                                           RMEpisodeDetailViewDelegate {
 
     
     private let episodeDetailViewViewModel: RMEpisodeDetailViewViewModel
@@ -30,6 +31,7 @@ final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailView
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(episodeDetailView)
+        episodeDetailView.delegate = self
         setUpConstraints()
         title = "Episodio"
         // Botón en la parte superior derecha
@@ -60,7 +62,21 @@ final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailView
         
     }
     
-    //MARK: - Func Delegate
+    //MARK: - Func View Delegate
+    
+    func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didSelect character: RMCharacter) {
+        // LLamamos al controller del detalle de los personajes
+        let characterDetailViewController = RMCharacterDetailViewController(
+            characterDetailViewViewModel: .init(character: character)
+        )
+        characterDetailViewController.title = character.name
+        // Que no muestre el título en modo grande
+        characterDetailViewController.navigationItem.largeTitleDisplayMode = .never
+        // Navegamos a la vista del detalle
+        navigationController?.pushViewController(characterDetailViewController, animated: true)
+    }
+    
+    //MARK: - Func ViewModel Delegate
     
     func didFetchEpisodeDetail() {
         episodeDetailView.configure(with: episodeDetailViewViewModel)

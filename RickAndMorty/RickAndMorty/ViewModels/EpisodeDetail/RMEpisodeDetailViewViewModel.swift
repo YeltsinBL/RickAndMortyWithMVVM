@@ -46,6 +46,15 @@ final class RMEpisodeDetailViewViewModel {
     
     //MARK: - Func Public
     
+    /// Obtener los personajes desde los datos de la Tupla del episodio
+    /// - Parameter index: posición del personaje en la tupla
+    /// - Returns: Modelo de datos del personaje opcional
+    public func character(at index: Int) -> RMCharacter? {
+        guard let dataTuple = dataTuple else { return nil }
+        // Devolver los personajes de la tupla de acuerdo al index
+        return dataTuple.characters[index]
+    }
+    
     //MARK: - Func Private
     
     /// Buscar la información del episodio
@@ -124,7 +133,6 @@ final class RMEpisodeDetailViewViewModel {
         if let createdDate = RMCharacterInfoCollectionViewCellViewModel.dateFormatter.date(from: episodeInfo.created) {
             createdString = RMCharacterInfoCollectionViewCellViewModel.shortdateFormatter.string(from: createdDate)
         }
-        
         
         episodeCellViewModel = [
             .information(viewModels: [
