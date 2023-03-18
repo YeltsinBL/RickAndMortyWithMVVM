@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import SafariServices
+import StoreKit
 
 /// Controlador para mostrar varias opciones y configuraciones de la aplicación
 final class RMSettingsViewController: UIViewController {
@@ -69,7 +70,10 @@ final class RMSettingsViewController: UIViewController {
             let vc = SFSafariViewController(url: url)
             present(vc, animated: true)
         } else if option == .rateApp {
-            
+            // Mostrar indicador de calificación
+            if let windosScene = self.view.window?.windowScene {
+                SKStoreReviewController.requestReview(in: windosScene)
+            }
         }
     }
     
