@@ -7,27 +7,13 @@
 
 import UIKit
 import SwiftUI
+import SafariServices
 
 /// Controlador para mostrar varias opciones y configuraciones de la aplicación
 final class RMSettingsViewController: UIViewController {
-
-    // Obtenemos todos los modelos de los tipos de configuracion
-    private let settingsViewViewModel = RMSettingsViewViewModel(
-        cellViewModels: RMSettingsOption.allCases.compactMap({
-            return RMSettingsCellViewModel(type: $0)
-        })
-    )
     
-    // Instanciamos la vista de SwiftUI dentro de un UIHostingController para poder utilizar su vista
-    private let settingsSwiftUIController = UIHostingController(
-        rootView: RMSettingsView(
-            viewModel: RMSettingsViewViewModel(
-                cellViewModels: RMSettingsOption.allCases.compactMap({
-                    return RMSettingsCellViewModel(type: $0)
-                })
-            )
-        )
-    )
+    // Propiedad para almacenar la vista de SwiftUI
+    private var settingsSwiftUIController: UIHostingController<RMSettingsView>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +25,21 @@ final class RMSettingsViewController: UIViewController {
     }
     
     
-    func addSwiftUIController() {
+    private func addSwiftUIController() {
+        // Instanciamos la vista de SwiftUI dentro de un UIHostingController para poder utilizar su vista
+        let settingsSwiftUIController = UIHostingController(
+            rootView: RMSettingsView(
+                viewModel: RMSettingsViewViewModel(
+                    cellViewModels: RMSettingsOption.allCases.compactMap({
+                        return RMSettingsCellViewModel(type: $0) { [weak self] option in
+                            self?.handlerTap(option: option)
+                        }
+                    })
+                )
+            )
+        )
+
+        
         // Agregar como Hijo el SwiftUI al ViewController
         addChild(settingsSwiftUIController)
         // Informar que se movió el SwiftUI al padre ViewController
@@ -56,6 +56,21 @@ final class RMSettingsViewController: UIViewController {
             settingsSwiftUIControllerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
         
+        self.settingsSwiftUIController = settingsSwiftUIController
+    }
+    
+    private func handlerTap(option: RMSettingsOption) {
+        // Aseguramos de hacer estas acciones en el hilo principal
+        guard Thread.current.isMainThread else {
+            return
+        }
+        if let url = option.targetUrl {
+            // Abrir Safari dentro de la Aplicación
+            let vc = SFSafariViewController(url: url)
+            present(vc, animated: true)
+        } else if option == .rateApp {
+            
+        }
     }
     
 }

@@ -7,16 +7,18 @@
 
 import UIKit
 
-struct RMSettingsCellViewModel: Identifiable, Hashable {
+struct RMSettingsCellViewModel: Identifiable {
 // Identifiable: Hacemos que tenga un identificador único por cada instancia que se realice
-// Hashable: obtener el valor único del Hash
+    
     let id = UUID()
     
     //MARK: - Property Private
-    
-    private let type: RMSettingsOption
-    
     //MARK: - Property Public
+    
+    
+    public let type: RMSettingsOption
+    
+    public let onTapHandler: (RMSettingsOption) -> Void
     
     public var image: UIImage? {
         return type.iconImage
@@ -30,8 +32,9 @@ struct RMSettingsCellViewModel: Identifiable, Hashable {
     
     //MARK: - Init
     
-    init(type: RMSettingsOption) {
+    init(type: RMSettingsOption, onTapHandler:@escaping (RMSettingsOption) -> Void) {
         self.type = type
+        self.onTapHandler = onTapHandler
     }
     
 }
